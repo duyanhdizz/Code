@@ -12,45 +12,29 @@ const int N = 9 + 1e6;
 const int INF = 1e9;
 
 int t;
-bool prime[N];
 
-void sang() {
-	fill(prime, prime + N, true);
-	prime[0] = prime[1] = false;
-	for(int i = 2; i * i < N; i++)
-		if(prime[i] == true)
-			for(int j = 2 * i; j < N; j += i)
-				prime[j] = false;
-}
+//TLE 4 / 10
 
 void solve() {
 	int n;
 	cin >> n;
-	int ans = 1;
-	for(int i = 2; i <= n; i++) {
-		if(prime[i] == true) {
-			int res = 0;
-			if (n % i == 0) {
-				while (n % i == 0) {
-					n /= i;
-					res++;
-				}
-				ans = ans * (2 * res + 1);
-			}
+	int res = 0;
+	for(int y = n + 1; y <= n * n + n; y++) {
+		if((n * n) % (y - n) == 0) {
+			res++;
 		}
 	}
-	cout << ans << '\n';
+	cout << res << '\n';
 }
 
 int32_t main() {
-#define TASKNAME "xyn"
+#define TASKNAME "xyn_sub1"
 	ios_base::sync_with_stdio (0);
 	cin.tie (0);
 	if ( fopen( TASKNAME".inp", "r" ) ) {
 		freopen (TASKNAME".inp", "r", stdin);
 		freopen (TASKNAME".out", "w", stdout);
 	}
-	sang();
 	cin >> t;
 	while(t--)
 		solve();
