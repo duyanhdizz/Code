@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+using namespace __gnu_pbds;
+#pragma GCC optimize("Ofast,O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+#define FOR(i, a, b) for (int i = (a); i <= (int) (b); ++i)
+#define FORD(i, a, b) for (int i = (a); i >= (int) (b); --i)
+#define REP(i, a, b) for (int i = (a); i < (int) (b); ++i)
+#define each(a, x) for (auto &a : x)
+#define fi first
+#define se second
+#define pb push_back
+#define ll long long
+#define all(a) a.begin(),a.end()
+typedef pair<int, int> pii;
+const int N = 9 + 1e6;
+const int INF = 1e9;
+
+char a[10], n;
+ll F[11][91][10000];
+
+ll thu(int i, bool gh, int tong, int sodu, ll K) {
+	bool ghm;
+	if (i < 0) {
+		if(tong % K == 0 && sodu == 0) return 1;
+		else return 0;
+	}
+	if(gh == false && F[i][tong][sodu] >= 0) return F[i][tong][sodu];
+	ll kq = 0;
+	char maxc = (gh ? a[i] : 9);
+	for (char c = 0; c <= maxc; c++) {
+		ghm = gh && (c == maxc);
+		kq += thu(i - 1, ghm, tong + c, (sodu * 10 + c) % K, K);
+	}
+	if (gh == false) F[i][tong][sodu] = kq;
+	return kq;
+}
+
+ll G(ll x, ll K) {
+	a[0] = 0;
+	n = 0;
+	while (x) {
+		a[n] = x % 10;
+		x /= 10;
+		n++;
+	}
+	return thu(n - 1, true, 0, 0, K);
+}
+
+void SaKaTa() {
+	int A, B, K;
+	cin >> A >> B >> K;
+	memset(F, -1, sizeof(F));
+	cout << G(B, K) - G(A-1, K) << '\n';
+}
+
+int32_t main() {
+#define TASKNAME "Investigation"
+	ios_base::sync_with_stdio (false);
+	cin.tie (nullptr);
+	cout.tie (nullptr);
+	int tbegin = clock();
+	if ( fopen( TASKNAME".inp", "r" ) ) {
+		freopen (TASKNAME".inp", "r", stdin);
+		freopen (TASKNAME".out", "w", stdout);
+	}
+	int testcase;
+    cin >> testcase;
+	while(testcase--)
+		SaKaTa();
+	cerr << '\n' << "Runtime: " << (clock() - tbegin) << " ms\n";
+	return 0;
+}
+/*
+==================================+
+INPUT:                            |
+------------------------------    |
+
+------------------------------    |
+==================================+
+OUTPUT:                           |
+------------------------------    |
+
+------------------------------    |
+==================================+
+*/
